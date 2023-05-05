@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: rest-jpa-metrics-demo
+
+  datasource:
+    driverClassName: org.h2.Driver
+    url: jdbc:h2:mem:test;DB_CLOSE_DELAY=-1
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+    show-sql: true
+
+metrics:
+  environment: local
+
+management:
+#  prometheus:
+#    metrics:
+#      export:
+#        enabled: true
+  # expose all metrics endpoints, including in this case /actuator/prometheus:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

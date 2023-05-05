@@ -1,0 +1,36 @@
+version: '3'
+#
+# NB, no specific volumes set, data storage will default to /var/lib/docker/volumes on ubuntu
+# clean up with docker volume prune
+#
+services:
+
+  sbrjp-prometheus:
+#    image: prom/prometheus:latest
+    build:
+      context: test-container-config/prometheus
+      dockerfile: Dockerfile
+    ports:
+      - '9090:9090'
+#    command: '--config.file=/etc/prometheus/config.yml'
+#    volumes:
+#      - 'setup/prometheus.yml:/etc/prometheus/config.yml'
+    network_mode: "host"
+  sbrjp-grafana:
+    build:
+      context: test-container-config/grafana
+      dockerfile: Dockerfile
+    ports:
+      - "127.0.0.1:4000:3000"
+    env_file:
+      - 'test-container-config/grafana/grafana.env'
+    depends_on:
+      - sbrjp-prometheus
+    network_mode: "host"
+  sbrjp-demo:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - sbrjp-prometheus
+    network_mode: "host"

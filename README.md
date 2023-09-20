@@ -65,6 +65,15 @@ Once all containers are running, you can proceed to add some data over the demo 
 The project is also configured to produce code coverage data using the jacoco maven plugin.
 After a build, this information can be found here: target/site/jacoco/index.html
 
+### Sonar
+Sonar can be built stand-alone as detailed below if you have access to an instance.
+NB You'll need to update the 'sonar' properties in the pom.xml file to identify the host and login token to be used when sending analysis to sonar.
+
+```$xslt
+mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install
+mvn sonar:sonar
+```
+
 ### Prometheus/Grafana
 Unlike InfluxDB, to which data is sent by the micrometer libraries, prometheus by default scrapes metrics from a page exposed (in this case at http://localhost:8080/actuator/prometheus) by the micrometer libraries.
 Grafana is configured to use prometheus as a datasource and display those metrics in a graphic form.
